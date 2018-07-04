@@ -1,4 +1,4 @@
-# Personal Bash aliases and functions.
+# Personal Bash aliases and functions for Linux.
 # More aliases are defined in the Ubuntu default .bashrc file.
 
 alias ll='ls -alhF'
