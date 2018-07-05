@@ -5,6 +5,7 @@ alias ll='ls -alhF'
 alias df='df -Th'
 alias free='free -h'
 alias last='last -a'
+alias agent='eval $(ssh-agent -s)'
 
 # Use the pager specified in /etc/alternatives
 if [ -x /usr/bin/pager ]
