@@ -5,7 +5,6 @@ alias ll='ls -alhF'
 alias df='df -Th'
 alias free='free -h'
 alias last='last -a'
-alias agent='eval $(ssh-agent -s)'
 
 # Use the pager specified in /etc/alternatives
 if [ -x /usr/bin/pager ]
@@ -15,6 +14,15 @@ fi
 
 psg() {
 	ps wwaux | grep --color=always ${1} | grep -v grep
+}
+
+agent() {
+	if [[ "${SSH_AGENT_PID}" ]]
+	then
+		ssh-agent -k
+	fi
+	eval $(ssh-agent -s)
+	ssh-add
 }
 
 if [ -x /usr/bin/apt ]
