@@ -3,8 +3,11 @@
 # Create symbolic links from the home directory to the files in this directory.
 #
 
-DOTFILES="${HOME}/dotfiles"
+# The list of files to create links to.
 FILES="bash_aliases tmux.conf"
+
+# The directory containing the files above. Probably a git clone.
+DOTFILES="${HOME}/dotfiles"
 
 for FILE in ${FILES}
 do
@@ -12,15 +15,19 @@ do
 	SOURCE="${DOTFILES}/${FILE}"
 	TARGET="${HOME}/.${FILE}"
 
+	# Make sure the file exists in the source directory and there's not already
+	# a symbolic link in the home directory.
 	if [[ -f ${SOURCE} && ! -h ${TARGET} ]]
 	then
-	
+
+		# If there's a plain (non-link) file in the home directory back it up first.
 		if [[ -f ${TARGET} ]]
 		then
 			mv "${TARGET}" "${TARGET}.old"
 		fi
 
-	ln -s "${SOURCE}" "${TARGET}"
+		# Create the link.
+		ln -s "${SOURCE}" "${TARGET}"
 	
 	fi
 	
