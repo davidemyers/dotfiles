@@ -2,6 +2,11 @@
 #
 # Create symbolic links from the home directory to the files in this directory.
 #
+# To set up a new system, run:
+#
+# git clone https://github.com/davidemyers/dotfiles.git
+# ~/dotfiles/makesymlinks.sh
+#
 
 # The list of files to create links to.
 FILES="bash_aliases tmux.conf"
