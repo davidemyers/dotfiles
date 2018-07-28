@@ -1,35 +1,29 @@
 # Personal Bash aliases and functions for Linux.
 # More aliases are defined in the Ubuntu default .bashrc file.
+# I use the default .profile, .bashrc, and .bash_logout files from /etc/skel.
 
 alias ll='ls -alhF'
 alias df='df -Th'
 alias free='free -h'
 alias last='last -a'
 
-# Use the pager specified in /etc/alternatives
-if [ -x /usr/bin/pager ]
-then
-	alias more=pager
-fi
+# Use the pager specified in /etc/alternatives, which is usually `less`.
+[[ -x /usr/bin/pager ]] && alias more=pager
 
 psg() {
-	ps wwaux | grep --color=always ${1} | grep -v grep
+	ps wwaux | grep --color=always "${*}" | grep -v grep
 }
 
 agent() {
-	if [[ "${SSH_AGENT_PID}" ]]
-	then
-		ssh-agent -k
-	fi
 	eval $(ssh-agent -s)
 	ssh-add
 }
 
-if [ -x /usr/bin/apt ]
+if [[ -x /usr/bin/apt ]]
 then
 	upgrade() {
-		sudo apt update && sudo apt full-upgrade $*
-		if [ -f /var/run/reboot-required ]
+		sudo apt update && sudo apt full-upgrade "${*}"
+		if [[ -f /var/run/reboot-required ]]
 		then
 			echo "$(tput smso)Reboot required$(tput rmso)"
 		fi
