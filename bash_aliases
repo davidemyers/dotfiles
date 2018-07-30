@@ -19,6 +19,16 @@ agent() {
 	ssh-add
 }
 
+if [[ -d ~/dotfiles ]]
+then
+	if [[ -f ~/dotfiles/.git/packed-refs ]]
+	then
+		dots() {(cd ~/dotfiles; git pull)}
+	else
+		dots() {(cd ~/dotfiles; git status)}
+	fi
+fi
+
 if [[ -x /usr/bin/apt ]]
 then
 	upgrade() {
