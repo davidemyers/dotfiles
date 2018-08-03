@@ -14,7 +14,7 @@ alias last='last -a'
 
 # shellcheck disable=SC2009
 psg() {
-	ps wwaux | grep --color=always "${*}" | grep -v grep
+	ps wwaux | grep --color=always "${@}" | grep -v grep
 }
 
 # shellcheck disable=SC2046
@@ -24,28 +24,30 @@ agent() {
 }
 
 # shellcheck disable=SC2164
-if [[ -d ~/dotfiles ]]
-then
-	if [[ -f ~/dotfiles/.git/packed-refs ]]
-	then
-		dots() { (cd ~/dotfiles; git pull) }
+if [[ -d ~/dotfiles ]]; then
+	if [[ -f ~/dotfiles/.git/packed-refs ]]; then
+		dots() {
+			(cd ~/dotfiles && git pull)
+		}
 	else
-		dots() { (cd ~/dotfiles; git status) }
+		dots() {
+			(cd ~/dotfiles && git status)
+		}
 	fi
 fi
 
-if [[ -x /usr/bin/apt ]]
-then
+if [[ -x /usr/bin/apt ]]; then
 	upgrade() {
-		sudo apt update && sudo apt full-upgrade "${*}"
-		if [[ -f /var/run/reboot-required ]]
-		then
+		sudo apt update && sudo apt full-upgrade "${@}"
+		[[ -f /var/run/reboot-required ]] && 
 			echo "$(tput smso)Reboot required$(tput rmso)"
-		fi
 	}
 fi
 
-tssh() {
-	host=${1#*@}; title=${host%%.*}
-	tmux new-window -n "${title}" ssh "${1}"
-}
+if [[ -x /usr/bin/tmux ]]; then
+	tssh() {
+		local host
+		host=${1#*@}
+		tmux new-window -n "${host%%.*}" ssh "${1}"
+	}
+fi
