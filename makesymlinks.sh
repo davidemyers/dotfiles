@@ -14,26 +14,23 @@ FILES="bash_aliases tmux.conf"
 # The directory containing the files above. Probably a git clone.
 DOTFILES="${HOME}/dotfiles"
 
-for FILE in ${FILES}
-do
+for FILE in ${FILES}; do
 
-	SOURCE="${DOTFILES}/${FILE}"
-	TARGET="${HOME}/.${FILE}"
+    SOURCE="${DOTFILES}/${FILE}"
+    TARGET="${HOME}/.${FILE}"
 
-	# Make sure the file exists in the source directory and there's not already
-	# a symbolic link in the home directory.
-	if [[ -f ${SOURCE} && ! -h ${TARGET} ]]
-	then
+    # Make sure the file exists in the source directory and there's not already
+    # a symbolic link in the home directory.
+    if [[ -f ${SOURCE} && ! -h ${TARGET} ]]; then
 
-		# If there's a plain (non-link) file in the home directory back it up first.
-		if [[ -f ${TARGET} ]]
-		then
-			mv "${TARGET}" "${TARGET}.old"
-		fi
+        # If there's a plain (non-link) file in the home directory back it up first.
+        if [[ -f ${TARGET} ]]; then
+            mv "${TARGET}" "${TARGET}.old"
+        fi
 
-		# Create the link.
-		ln -s "${SOURCE}" "${TARGET}"
-	
-	fi
-	
+        # Create the link.
+        ln -s "${SOURCE}" "${TARGET}"
+
+    fi
+
 done
