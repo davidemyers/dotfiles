@@ -25,13 +25,13 @@ agent() {
 
 # shellcheck disable=SC2164
 if [[ -d ~/dotfiles ]]; then
-    if [[ -f ~/dotfiles/.git/packed-refs ]]; then
+    if [[ -f ~/dotfiles/.gitignore ]]; then
         dots() {
-            (cd ~/dotfiles && git pull)
+            (cd ~/dotfiles && git status)
         }
     else
         dots() {
-            (cd ~/dotfiles && git status)
+            (cd ~/dotfiles && git pull)
         }
     fi
 fi
