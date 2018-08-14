@@ -44,7 +44,7 @@ if [[ -x /usr/bin/apt ]]; then
     }
 fi
 
-if [[ -x /usr/bin/tmux ]]; then
+if [[ ${TMUX} ]]; then
     tssh() {
         local host
         host=${1#*@}
