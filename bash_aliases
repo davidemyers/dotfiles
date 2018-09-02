@@ -9,6 +9,11 @@ alias df='df -Th'
 alias free='free -h'
 alias last='last -a'
 
+# This is needed for signing git commits.
+if [[ -f ~/.gnupg/pubring.gpg ]]; then
+    GPG_TTY=$(tty); export GPG_TTY
+fi
+
 # Use the pager specified in /etc/alternatives, which is usually `less`.
 [[ -x /usr/bin/pager ]] && alias more=pager
 
