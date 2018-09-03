@@ -36,7 +36,7 @@ if [[ -d ~/dotfiles ]]; then
         }
     else
         dots() {
-            (cd ~/dotfiles && git pull)
+            (cd ~/dotfiles && git pull && ./makesymlinks.sh)
         }
     fi
 fi
