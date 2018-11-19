@@ -15,7 +15,7 @@ if [[ -f ~/.gnupg/pubring.gpg ]]; then
 fi
 
 # Use the pager specified in /etc/alternatives, which is usually `less`.
-[[ -x /usr/bin/pager ]] && alias more=pager
+[[ -x $(command -v pager) ]] && alias more=pager
 
 # shellcheck disable=SC2009
 psg() {
@@ -41,11 +41,17 @@ if [[ -d ~/dotfiles ]]; then
     fi
 fi
 
-if [[ -x /usr/bin/apt ]]; then
+if [[ -x $(command -v apt) ]]; then
     upgrade() {
         sudo apt update && sudo apt full-upgrade "$@"
         [[ -f /var/run/reboot-required ]] &&
             echo "$(tput smso)Reboot required$(tput rmso)"
+    }
+fi
+
+if [[ -x $(command -v curl) ]]; then
+    myip() {
+        curl -4 icanhazip.com; curl -6 icanhazip.com
     }
 fi
 
