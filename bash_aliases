@@ -51,7 +51,10 @@ fi
 
 if [[ -x $(command -v curl) ]]; then
     myip() {
-        curl -4 icanhazip.com; curl -6 icanhazip.com
+        curl -4 icanhazip.com
+        if [[ $(ip -6 route show default) ]]; then
+            curl -6 icanhazip.com
+        fi
     }
 fi
 
