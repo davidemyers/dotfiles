@@ -5,7 +5,7 @@
 # I use the default .profile, .bashrc, and .bash_logout files from /etc/skel.
 
 alias ll='ls -alhF'
-alias df='df -Th'
+alias df='df -Thx squashfs'
 alias free='free -h'
 alias last='last -a'
 
