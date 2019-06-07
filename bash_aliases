@@ -65,3 +65,12 @@ if [[ ${TMUX} ]]; then
         tmux new-window -n "${host%%.*}" ssh "$1"
     }
 fi
+
+# shellcheck disable=SC1091 disable=SC2034
+if [[ -x $(command -v git) && -f /usr/lib/git-core/git-sh-prompt ]]; then
+    . /usr/lib/git-core/git-sh-prompt
+    GIT_PS1_SHOWCOLORHINTS=1
+    GIT_PS1_SHOWDIRTYSTATE=1
+    GIT_PS1_SHOWUNTRACKEDFILES=1
+    PROMPT_COMMAND='__git_ps1 "\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]" "\\\$ " "(%s)"'
+fi
