@@ -1,12 +1,14 @@
 #!/bin/bash
 #
-# Personal Bash aliases and functions for Linux.
+# Personal Bash aliases and functions for Ubuntu Linux.
 # More aliases are defined in the Ubuntu default .bashrc file.
 # I use the default .profile, .bashrc, and .bash_logout files from /etc/skel.
+#
 
+# Some handy aliases.
 alias ll='ls -alhF'
 alias df='df -Thx squashfs'
-alias free='free -h'
+alias free='free -ht'
 alias last='last -a'
 
 # This is needed for signing git commits.
@@ -17,17 +19,13 @@ fi
 # Use the pager specified in /etc/alternatives, which is usually `less`.
 [[ -x $(command -v pager) ]] && alias more=pager
 
+# Function to grep the output of ps. In living color.
 # shellcheck disable=SC2009
 psg() {
     ps wwaux | grep --color=always "$@" | grep -v grep
 }
 
-# shellcheck disable=SC2046
-agent() {
-    eval $(ssh-agent -s)
-    ssh-add
-}
-
+# Function to make sure my dotfiles are current.
 # shellcheck disable=SC2164
 if [[ -d ~/dotfiles ]]; then
     if [[ -f ~/dotfiles/.gitignore ]]; then
@@ -41,6 +39,7 @@ if [[ -d ~/dotfiles ]]; then
     fi
 fi
 
+# Function to upgrade packages with a single command.
 if [[ -x $(command -v apt) ]]; then
     upgrade() {
         sudo apt update && sudo apt full-upgrade "$@"
@@ -49,6 +48,7 @@ if [[ -x $(command -v apt) ]]; then
     }
 fi
 
+# Function to determine the public IP address(es) of the system.
 if [[ -x $(command -v curl) ]]; then
     myip() {
         curl -4 icanhazip.com
@@ -58,6 +58,8 @@ if [[ -x $(command -v curl) ]]; then
     }
 fi
 
+# Function to open a new SSH session in a new tmux window.
+# Usage: tssh me@example.com
 if [[ ${TMUX} ]]; then
     tssh() {
         local host
@@ -66,6 +68,8 @@ if [[ ${TMUX} ]]; then
     }
 fi
 
+# Customize the command prompt to show git status when in a git directory.
+# Based on the default Ubuntu Linux color prompt.
 # shellcheck disable=SC1091 disable=SC2034
 if [[ -x $(command -v git) && -f /usr/lib/git-core/git-sh-prompt ]]; then
     . /usr/lib/git-core/git-sh-prompt
