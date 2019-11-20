@@ -58,6 +58,13 @@ if [[ -x $(command -v curl) ]]; then
     }
 fi
 
+# Function to print the most recent system log entries.
+if [[ -x $(command -v journalctl) ]]; then
+    logs() {
+        journalctl --no-pager --lines=${LINES} --system
+    }
+fi
+
 # Function to open a new SSH session in a new tmux window.
 # Usage: tssh me@example.com
 if [[ ${TMUX} ]]; then
