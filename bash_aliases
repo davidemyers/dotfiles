@@ -10,14 +10,12 @@ alias ll='ls -alhF'
 alias df='df -Thx squashfs'
 alias free='free -ht'
 alias last='last -a'
+alias more='less'
 
 # This is needed for signing git commits.
 if [[ -f ~/.gnupg/pubring.gpg ]]; then
     GPG_TTY=$(tty); export GPG_TTY
 fi
-
-# Use the pager specified in /etc/alternatives, which is usually `less`.
-[[ -x $(command -v pager) ]] && alias more=pager
 
 # Function to grep the output of ps. In living color.
 # shellcheck disable=SC2009
