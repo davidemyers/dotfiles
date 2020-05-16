@@ -37,8 +37,13 @@ if [[ -d ~/dotfiles ]]; then
     fi
 fi
 
-# Function to upgrade packages with a single command.
+# Functions to simplify package management.
 if [[ -x $(command -v apt) ]]; then
+    update() {
+        sudo apt update && apt list --upgradable
+        [[ -f /var/run/reboot-required ]] &&
+            echo "$(tput smso)Reboot required$(tput rmso)"
+    }
     upgrade() {
         sudo apt update && sudo apt full-upgrade "$@"
         [[ -f /var/run/reboot-required ]] &&
