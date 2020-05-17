@@ -39,15 +39,29 @@ fi
 
 # Functions to simplify package management.
 if [[ -x $(command -v apt) ]]; then
-    update() {
-        sudo apt update && apt list --upgradable
-        [[ -f /var/run/reboot-required ]] &&
-            echo "$(tput smso)Reboot required$(tput rmso)"
+    # Update the package cache if it's over 10 minutes old.
+    _do_apt_update() {
+        if [[ $(( $(date +%s) - $(stat -c %Y /var/cache/apt/pkgcache.bin) )) -gt 600 ]]; then
+            sudo apt update
+        fi
     }
-    upgrade() {
-        sudo apt update && sudo apt full-upgrade "$@"
-        [[ -f /var/run/reboot-required ]] &&
+    # Print a notice if a reboot is pending.
+    _check_for_reboot() {
+        if [[ -f /var/run/reboot-required ]]; then
             echo "$(tput smso)Reboot required$(tput rmso)"
+        fi
+    }
+    # List upgradable packages.
+    update() {
+        _do_apt_update
+        apt list --upgradable
+        _check_for_reboot
+    }
+    # Upgrade packages.
+    upgrade() {
+        _do_apt_update
+        sudo apt full-upgrade "$@"
+        _check_for_reboot
     }
 fi
 
