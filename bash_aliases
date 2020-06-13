@@ -63,6 +63,10 @@ if [[ -x $(command -v apt) ]]; then
         sudo apt full-upgrade "$@"
         _check_for_reboot
     }
+    # View the most recent package activities.
+    aptlog() {
+        tail --lines=${LINES} /var/log/apt/history.log
+    }
 fi
 
 # Function to determine the public IP address(es) of the system.
