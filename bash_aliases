@@ -25,14 +25,14 @@ psg() {
 
 # Function to make sure my dotfiles are current.
 # shellcheck disable=SC2164
-if [[ -d ~/dotfiles ]]; then
-    if [[ -f ~/dotfiles/.gitignore ]]; then
+if [[ -d ~/.dotfiles ]]; then
+    if [[ -f ~/.dotfiles/.gitignore ]]; then
         dots() {
-            (cd ~/dotfiles && git status)
+            (cd ~/.dotfiles && git status)
         }
     else
         dots() {
-            (cd ~/dotfiles && git pull && ./makesymlinks.sh)
+            (cd ~/.dotfiles && git pull && ./makesymlinks.sh)
         }
     fi
 fi

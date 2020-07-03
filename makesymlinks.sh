@@ -4,15 +4,15 @@
 #
 # To set up a new system, run:
 #
-# git clone https://github.com/davidemyers/dotfiles.git
-# ~/dotfiles/makesymlinks.sh
+# git clone https://github.com/davidemyers/dotfiles.git .dotfiles
+# ~/.dotfiles/makesymlinks.sh
 #
 
 # The list of files to create links to.
 FILES="bash_aliases tmux.conf"
 
 # The directory containing the files above. Probably a git clone.
-DOTFILES="${HOME}/dotfiles"
+DOTFILES="${HOME}/.dotfiles"
 
 for FILE in ${FILES}; do
 
