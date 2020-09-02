@@ -7,7 +7,7 @@
 
 # Some handy aliases.
 alias ll='ls -alhF'
-alias df='df -Thx squashfs'
+alias df='df -Th -x squashfs -x tmpfs -x devtmpfs'
 alias free='free -ht'
 alias last='last -a'
 alias more='less'
