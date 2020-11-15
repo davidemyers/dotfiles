@@ -41,7 +41,8 @@ fi
 if [[ -x $(command -v apt) ]]; then
     # Update the package cache if it's over 10 minutes old.
     _do_apt_update() {
-        if [[ $(( $(date +%s) - $(stat -c %Y /var/cache/apt/pkgcache.bin) )) -gt 600 ]]; then
+        if [[ ! -e /var/cache/apt/pkgcache.bin ||
+            $(( $(date +%s) - $(stat -c %Y /var/cache/apt/pkgcache.bin) )) -gt 600 ]]; then
             sudo apt update
         fi
     }
