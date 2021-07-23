@@ -107,3 +107,9 @@ if [[ -x $(command -v git) && -f /usr/lib/git-core/git-sh-prompt ]]; then
     GIT_PS1_SHOWUNTRACKEDFILES=1
     PROMPT_COMMAND='__git_ps1 "\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]" "\\\$ " "(%s)"'
 fi
+
+# Load any aliases and functions specific to this system.
+# shellcheck disable=SC1090
+if [[ -f ~/.bash_aliases.local ]]; then
+    . ~/.bash_aliases.local
+fi
