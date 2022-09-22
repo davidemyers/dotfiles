@@ -61,7 +61,7 @@ if [[ -x $(command -v apt) ]]; then
     # Upgrade packages.
     upgrade() {
         _do_apt_update
-        sudo apt full-upgrade "$@"
+        sudo apt upgrade "$@"
         _check_for_reboot
     }
     # View the most recent package activities.
