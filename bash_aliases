@@ -91,9 +91,11 @@ fi
 # Usage: tssh me@example.com
 if [[ ${TMUX} ]]; then
     tssh() {
-        local host
-        host=${1#*@}
-        tmux new-window -n "${host%%.*}" ssh "$1"
+        local hostname destination
+        for destination in "$@"; do
+            hostname=${destination#*@}
+            tmux new-window -n "${hostname%%.*}" ssh "${destination}"
+        done
     }
 fi
 
