@@ -61,7 +61,7 @@ if [[ -x $(command -v apt) ]]; then
     # Upgrade packages.
     upgrade() {
         _do_apt_update
-        sudo apt upgrade "$@"
+        sudo NEEDRESTART_MODE=l apt upgrade "$@"
         _check_for_reboot
     }
     # View the most recent package activities.
