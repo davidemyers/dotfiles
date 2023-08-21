@@ -11,6 +11,7 @@ alias df='df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse'
 alias free='free -ht'
 alias last='last -a'
 alias more='less'
+alias p1ng='ping -c1'
 
 # This is needed for signing git commits.
 if [[ -f ~/.gnupg/pubring.gpg ]]; then
