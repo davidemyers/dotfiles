@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# ~/.bash_aliases
+#
 # Personal Bash aliases and functions for Ubuntu Linux.
 # More aliases are defined in the Ubuntu default .bashrc file.
 # I use the default .profile, .bashrc, and .bash_logout files from /etc/skel.
