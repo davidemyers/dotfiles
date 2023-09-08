@@ -9,7 +9,7 @@
 #
 
 # The list of files to create links to.
-FILES="bash_aliases bash_profile tmux.conf"
+FILES="bash_aliases bash_profile nanorc tmux.conf"
 
 # The directory containing the files above. Probably a git clone.
 DOTFILES="${HOME}/.dotfiles"
