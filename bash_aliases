@@ -9,7 +9,7 @@
 
 # Some handy aliases.
 alias ll='ls -alhF'
-alias df='df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse'
+alias df='df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'
 alias free='free -ht'
 alias last='last -a'
 alias more='less'
