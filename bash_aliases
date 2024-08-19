@@ -86,7 +86,8 @@ fi
 # Function to print the most recent system log entries.
 if [[ -x $(command -v journalctl) ]]; then
     logs() {
-        journalctl --no-pager --lines=${LINES} --system
+        # journalctl --no-pager --lines=${LINES} --system
+        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | egrep -v 'CRON|sysstat-collect\.service' | tail -${LINES}
     }
 fi
 
