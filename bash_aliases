@@ -87,7 +87,7 @@ fi
 if [[ -x $(command -v journalctl) ]]; then
     logs() {
         # journalctl --no-pager --lines=${LINES} --system
-        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | egrep -v 'CRON|sysstat-collect\.service' | tail -${LINES}
+        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | egrep -v 'CRON|sysstat-collect\.service|systemd.*sanoid' | tail -${LINES}
     }
 fi
 
@@ -113,6 +113,18 @@ if [[ -x $(command -v git) && -f /usr/lib/git-core/git-sh-prompt ]]; then
     GIT_PS1_SHOWUNTRACKEDFILES=1
     PROMPT_COMMAND='__git_ps1 "\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]" "\\\$ " "(%s)"'
 fi
+
+# Show a summary of system health.
+# This will typically be overridden with a system-specific version in ~/.bash_aliases.local.
+sup() {
+    uptime
+    echo
+    landscape-sysinfo --sysinfo-plugins=Disk,Memory
+    echo
+    if [[ $(systemd --version | awk '/^systemd/ { print $2 }') -ge 255 ]]; then
+        systemctl status --failed
+    fi
+}
 
 # Load any aliases and functions specific to this system.
 # shellcheck disable=SC1090
