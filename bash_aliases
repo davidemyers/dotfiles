@@ -87,7 +87,7 @@ fi
 if [[ -x $(command -v journalctl) ]]; then
     logs() {
         # journalctl --no-pager --lines=${LINES} --system
-        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | egrep -v 'CRON|sysstat-collect\.service|systemd.*sanoid' | tail -${LINES}
+        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | grep -v 'CRON|sysstat-collect\.service|systemd.*sanoid' | tail -${LINES}
     }
 fi
 
