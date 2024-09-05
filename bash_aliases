@@ -89,8 +89,15 @@ fi
 # Function to print the most recent system log entries.
 if [[ -x $(command -v journalctl) ]]; then
     logs() {
-        # journalctl --no-pager --lines=${LINES} --system
-        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | grep -E -v 'CRON|sysstat-collect\.service|systemd.*sanoid|sanoid.*INFO' | tail -${LINES}
+        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | \
+        grep -E -v  -e 'CRON' \
+                    -e 'systemd.*Started' \
+                    -e 'systemd.*Starting' \
+                    -e 'systemd.*Finished' \
+                    -e 'systemd.*Deactivated' \
+                    -e 'systemd.*Consumed' \
+                    -e 'sanoid.*INFO' | \
+            tail -${LINES}
     }
 fi
 
