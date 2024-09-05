@@ -44,7 +44,7 @@ if [[ -d ~/.dotfiles ]]; then
 fi
 
 # Functions to simplify package management.
-if [[ -x $(command -v apt) ]]; then
+if command -v apt > /dev/null; then
     # Update the package cache if it's over 10 minutes old.
     _do_apt_update() {
         if [[ ! -e /var/cache/apt/pkgcache.bin ||
@@ -77,7 +77,7 @@ if [[ -x $(command -v apt) ]]; then
 fi
 
 # Function to determine the public IP address(es) of the system.
-if [[ -x $(command -v curl) ]]; then
+if command -v curl > /dev/null; then
     myip() {
         curl -4 icanhazip.com
         if [[ $(ip -6 route show default) ]]; then
@@ -87,7 +87,7 @@ if [[ -x $(command -v curl) ]]; then
 fi
 
 # Function to print the most recent system log entries.
-if [[ -x $(command -v journalctl) ]]; then
+if command -v journalctl > /dev/null; then
     logs() {
         SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | \
         grep -E -v  -e 'CRON' \
@@ -116,7 +116,7 @@ fi
 # Customize the command prompt to show git status when in a git directory.
 # Based on the default Ubuntu Linux color prompt.
 # shellcheck disable=SC1091 disable=SC2034
-if [[ -x $(command -v git) && -f /usr/lib/git-core/git-sh-prompt ]]; then
+if command -v git > /dev/null && [[ -f /usr/lib/git-core/git-sh-prompt ]]; then
     . /usr/lib/git-core/git-sh-prompt
     GIT_PS1_SHOWCOLORHINTS=1
     GIT_PS1_SHOWDIRTYSTATE=1
