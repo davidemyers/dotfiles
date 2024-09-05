@@ -7,6 +7,9 @@
 # I use the default .profile, .bashrc, and .bash_logout files from /etc/skel.
 #
 
+# I prefer 24-hour time on a server.
+export LC_TIME="C.UTF-8"
+
 # Some handy aliases.
 alias ll='ls -alhF'
 alias df='df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'
@@ -87,7 +90,7 @@ fi
 if [[ -x $(command -v journalctl) ]]; then
     logs() {
         # journalctl --no-pager --lines=${LINES} --system
-        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | grep -E -v 'CRON|sysstat-collect\.service|systemd.*sanoid' | tail -${LINES}
+        SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | grep -E -v 'CRON|sysstat-collect\.service|systemd.*sanoid|sanoid.*INFO' | tail -${LINES}
     }
 fi
 
