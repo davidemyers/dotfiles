@@ -96,6 +96,7 @@ if command -v journalctl > /dev/null; then
                     -e 'systemd.*Finished' \
                     -e 'systemd.*Deactivated' \
                     -e 'systemd.*Consumed' \
+                    -e 'INFO.*ubuntupro.timer' \
                     -e 'sanoid.*INFO' | \
             tail -${LINES}
     }
