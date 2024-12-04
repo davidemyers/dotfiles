@@ -114,6 +114,11 @@ if [[ ${TMUX} ]]; then
     }
 fi
 
+# If NUT is installed set a variable to suppress SSL warnings from upsc.
+if command -v upsc > /dev/null; then
+    export NUT_QUIET_INIT_SSL=TRUE
+fi
+
 # Customize the command prompt to show git status when in a git directory.
 # Based on the default Ubuntu Linux color prompt.
 # shellcheck disable=SC1091 disable=SC2034
