@@ -114,6 +114,11 @@ if [[ ${TMUX} ]]; then
     }
 fi
 
+# Work around color problems in btop.
+if [[ ${TERM} == 'xterm-256color' ]]; then
+    alias btop='btop -lc'
+fi
+
 # If NUT is installed set a variable to suppress SSL warnings from upsc.
 if command -v upsc > /dev/null; then
     export NUT_QUIET_INIT_SSL=TRUE
