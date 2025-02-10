@@ -7,6 +7,11 @@
 # I use the default .profile, .bashrc, and .bash_logout files from /etc/skel.
 #
 
+# If we're on a serial console we're probably using screen.
+if [[ ${TERM} == 'vt220' ]]; then
+    export TERM='screen-256color'
+fi
+
 # I prefer 24-hour time on a server.
 export LC_TIME="C.UTF-8"
 
