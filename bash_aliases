@@ -146,19 +146,6 @@ if command -v git > /dev/null && [[ -f /usr/lib/git-core/git-sh-prompt ]]; then
     PROMPT_COMMAND='__git_ps1 "\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]" "\\\$ " "(%s)"'
 fi
 
-# Show a summary of system health.
-if ! command -v sup > /dev/null; then
-    sup() {
-        uptime
-        echo
-        landscape-sysinfo --sysinfo-plugins=Disk,Memory
-        echo
-        if [[ $(systemd --version | awk '/^systemd/ { print $2 }') -ge 255 ]]; then
-            systemctl status --failed
-        fi
-    }
-fi
-
 # Load any aliases and functions specific to this system.
 # shellcheck disable=SC1090
 if [[ -f ~/.bash_aliases.local ]]; then
