@@ -15,6 +15,22 @@ fi
 # I prefer 24-hour time on a server.
 export LC_TIME="C.UTF-8"
 
+# If NUT is installed set a variable to suppress SSL warnings from upsc.
+if command -v upsc > /dev/null; then
+    export NUT_QUIET_INIT_SSL=TRUE
+fi
+
+# This is needed for signing git commits.
+if [[ -f ~/.gnupg/pubring.gpg ]]; then
+    GPG_TTY=$(tty); export GPG_TTY
+fi
+
+# Switch to the Fish shell if present and desired now that most environment
+# variables have been set.
+if shopt -q login_shell && [[ -f ~/.go_fish && -x /usr/bin/fish ]]; then
+    exec -a fish -l /usr/bin/fish
+fi
+
 # Some handy aliases.
 alias ll='ls -alhF'
 alias df='df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'
@@ -22,11 +38,6 @@ alias free='free -ht'
 alias last='last -a'
 alias more='less'
 alias p1ng='ping -c1'
-
-# This is needed for signing git commits.
-if [[ -f ~/.gnupg/pubring.gpg ]]; then
-    GPG_TTY=$(tty); export GPG_TTY
-fi
 
 # Function to grep the output of ps. In living color.
 # shellcheck disable=SC2009
@@ -124,11 +135,6 @@ if [[ ${TERM} == 'xterm-256color' ]]; then
     alias btop='btop -lc'
 fi
 
-# If NUT is installed set a variable to suppress SSL warnings from upsc.
-if command -v upsc > /dev/null; then
-    export NUT_QUIET_INIT_SSL=TRUE
-fi
-
 # Customize the command prompt to show git status when in a git directory.
 # Based on the default Ubuntu Linux color prompt.
 # shellcheck disable=SC1091 disable=SC2034
@@ -141,16 +147,17 @@ if command -v git > /dev/null && [[ -f /usr/lib/git-core/git-sh-prompt ]]; then
 fi
 
 # Show a summary of system health.
-# This will typically be overridden with a system-specific version in ~/.bash_aliases.local.
-sup() {
-    uptime
-    echo
-    landscape-sysinfo --sysinfo-plugins=Disk,Memory
-    echo
-    if [[ $(systemd --version | awk '/^systemd/ { print $2 }') -ge 255 ]]; then
-        systemctl status --failed
-    fi
-}
+if ! command -v sup > /dev/null; then
+    sup() {
+        uptime
+        echo
+        landscape-sysinfo --sysinfo-plugins=Disk,Memory
+        echo
+        if [[ $(systemd --version | awk '/^systemd/ { print $2 }') -ge 255 ]]; then
+            systemctl status --failed
+        fi
+    }
+fi
 
 # Load any aliases and functions specific to this system.
 # shellcheck disable=SC1090
