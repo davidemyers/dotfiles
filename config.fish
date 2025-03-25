@@ -1,14 +1,14 @@
 # config.fish
 #
 # Install fish 4.x on Ubuntu Server 24.04 LTS with:
-# sudo add-apt-repository ppa:fish-shell/release-4 && sudo apt install -y fish
+# sudo add-apt-repository -y ppa:fish-shell/release-4 && sudo apt install -y fish
 #
 # Most environment variables are set by my login shell before fish starts.
 #
 if status is-interactive
 
-    # Don't display the fish greeting.
-    set -g fish_greeting
+    # Modify the fish greeting.
+    set -g fish_greeting "fish, version $version"
 
     # Need to set EDITOR in order to edit command lines using alt-e.
     set -g EDITOR nano
@@ -23,6 +23,7 @@ if status is-interactive
     set -g fish_color_host_remote brcyan # default: yellow
     # Can't abide the red comments in the default theme.
     set -g fish_color_comment brblack    # default: red
+
     # Show more detail in the git prompt.
     set -g __fish_git_prompt_show_informative_status no
     set -g __fish_git_prompt_use_informative_chars yes
@@ -139,9 +140,6 @@ if status is-interactive
 
         # Functions specific to macOS.
         case Darwin
-            # This is handled by the default ls function.
-            # set -g CLICOLOR TRUE
-
             # Set up environment variables for Homebrew.
             if test -x /opt/homebrew/bin/brew
                 eval (/opt/homebrew/bin/brew shellenv fish)
@@ -156,6 +154,8 @@ if status is-interactive
             end
 
     end
+
+    # Functions not specific to the OS.
 
     function more --wraps=less --description 'alias more less'
         less $argv
