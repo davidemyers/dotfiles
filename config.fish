@@ -17,12 +17,12 @@ if status is-interactive
     set -g fish_escape_delay_ms 500
 
     # Truncate fewer directory names in prompts.
-    set -g fish_prompt_pwd_full_dirs 3   # default: 1
+    set -g fish_prompt_pwd_full_dirs 3 # default: 1
     # Tweak some colors in the default prompt.
-    set -g fish_color_host brcyan        # default: normal
+    set -g fish_color_host brcyan # default: normal
     set -g fish_color_host_remote brcyan # default: yellow
     # Can't abide the red comments in the default theme.
-    set -g fish_color_comment brblack    # default: red
+    set -g fish_color_comment brblack # default: red
 
     # Show more detail in the git prompt.
     set -g __fish_git_prompt_show_informative_status no
@@ -33,8 +33,9 @@ if status is-interactive
 
     switch (uname)
 
-        # Functions specific to Linux.
         case Linux
+            # Functions specific to (Ubuntu) Linux.
+
             # Need to prepend ~/bin to PATH since we start fish before this
             # gets added in ~/.profile for bash.
             fish_add_path ~/bin
@@ -70,7 +71,7 @@ if status is-interactive
                         popd
                     end
                 else
-                    function dots  --description 'Make sure .dotfiles are current'
+                    function dots --description 'Make sure .dotfiles are current'
                         pushd ~/.dotfiles
                         git pull
                         ./makesymlinks.sh
@@ -98,7 +99,7 @@ if status is-interactive
             if command -q apt
                 function _do_apt_update --description 'Update apt package list unless recently updated'
                     if not test -e /var/cache/apt/pkgcache.bin;
-                    or test (math (date +%s) - (stat -c %Y /var/cache/apt/pkgcache.bin)) -gt 600
+                        or test (math (date +%s) - (stat -c %Y /var/cache/apt/pkgcache.bin)) -gt 600
                         sudo apt update
                     end
                 end
@@ -133,13 +134,14 @@ if status is-interactive
                         tmux new-window -n (string replace -r '(\w+@)?(\w+)(\.\w+)*' '$2' $destination) ssh $destination
                     end
                 end
-                function pis --description 'Log into all of my Raspberry Pis at once'
+                function pis --description 'tssh into all of my Raspberry Pis at once'
                     tssh pi chronos cerberus stargate capsule walnut peanut
                 end
             end
 
-        # Functions specific to macOS.
         case Darwin
+            # Functions specific to macOS.
+
             # Set up environment variables for Homebrew.
             if test -x /opt/homebrew/bin/brew
                 eval (/opt/homebrew/bin/brew shellenv fish)
