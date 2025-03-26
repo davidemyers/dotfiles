@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 #
 # Create symbolic links from the home directory to the files in this directory.
 #
@@ -34,3 +34,23 @@ for FILE in ${FILES}; do
     fi
 
 done
+
+# Handle config.fish specially.
+SOURCE="${DOTFILES}/config.fish"
+TARGET="${HOME}/.config/fish/config.fish"
+
+# Make sure the file exists in the source directory and there's not already
+# a symbolic link in the home directory.
+if [[ -f ${SOURCE} && ! -h ${TARGET} ]]; then
+
+    # If there's a plain (non-link) file in the home directory back it up first.
+    if [[ -f ${TARGET} ]]; then
+        mv "${TARGET}" "${TARGET}.old"
+    fi
+
+    # Create the link.
+    # shellcheck disable=SC2174
+    mkdir -m 0700 -p "$(dirname "${TARGET}")"
+    ln -s "${SOURCE}" "${TARGET}"
+
+fi
