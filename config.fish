@@ -19,11 +19,11 @@ if status is-interactive
     # Truncate fewer directory names in prompts.
     set -g fish_prompt_pwd_full_dirs 3 # default: 1
     # Tweak some colors in the default prompt.
-    # "#0088FF" is a luminance-boosted version of Duke Royal Blue "#00539B"
+    # #0088FF is a luminance-boosted version of Duke Royal Blue #00539B.
     # https://brand.duke.edu/colors https://htmlcolorcodes.com
-    set -g fish_color_user "08F" brgreen # default: brgreen
-    set -g fish_color_host "08F" brcyan # default: normal
-    set -g fish_color_host_remote "08F" brcyan # default: yellow
+    set -g fish_color_user 08F brgreen # default: brgreen
+    set -g fish_color_host 08F brcyan # default: normal
+    set -g fish_color_host_remote 08F brcyan # default: yellow
     # Can't abide the red comments in the default theme.
     set -g fish_color_comment brblack # default: red
 
