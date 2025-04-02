@@ -1,23 +1,24 @@
 # config.fish
 #
 # Install fish 4.x on Ubuntu Server 24.04 LTS with:
-# sudo add-apt-repository -y ppa:fish-shell/release-4 && sudo apt install -y fish
+# sudo add-apt-repository -y ppa:fish-shell/release-4 && sudo apt install -y --no-install-recommends fish
 #
 # Most environment variables are set by my login shell before fish starts.
 #
 if status is-interactive
 
     # Modify the fish greeting.
-    set -g fish_greeting "fish, version $version"
+    set -g fish_greeting fish, version $version
 
     # Need to set EDITOR in order to edit command lines using alt-e.
-    set -g EDITOR nano
+    set -gx EDITOR nano
 
     # Wait a bit longer to read "escape" as "alt".
     set -g fish_escape_delay_ms 500
 
     # Truncate fewer directory names in prompts.
     set -g fish_prompt_pwd_full_dirs 3 # default: 1
+
     # Tweak some colors in the default prompt.
     # #0088FF is a luminance-boosted version of Duke Royal Blue #00539B.
     # https://brand.duke.edu/colors https://htmlcolorcodes.com
