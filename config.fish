@@ -110,7 +110,7 @@ if status is-interactive
 
                 function _check_for_reboot --description 'Print a notice if a reboot is pending'
                     if test -e /run/reboot-required
-                        echo -s (set_color bryellow) "Reboot required" (set_color normal)
+                        echo Reboot required
                     end
                 end
 
