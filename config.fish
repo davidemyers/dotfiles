@@ -3,7 +3,10 @@
 # Install fish 4.x on Ubuntu Server 24.04 LTS with:
 # sudo add-apt-repository -y ppa:fish-shell/release-4 && sudo apt install -y --no-install-recommends fish
 #
-# Most environment variables are set by my login shell before fish starts.
+# As of Ubuntu Server 25.04 fish 4.X is part of the standard repositories.
+#
+# Most environment variables are set by my login shell (bash) before fish starts.
+# Not currently using fish as my login shell.
 #
 if status is-interactive
 
@@ -35,6 +38,7 @@ if status is-interactive
     set -g __fish_git_prompt_showuntrackedfiles yes
     set -g __fish_git_prompt_showdirtystate yes
 
+    # Define different functions based on the OS.
     switch (uname)
 
         case Linux
@@ -42,7 +46,9 @@ if status is-interactive
 
             # Need to prepend ~/bin to PATH since we start fish before this
             # gets added in ~/.profile for bash.
-            fish_add_path ~/bin
+            if test -d ~/bin
+                fish_add_path ~/bin
+            end
 
             function df --description 'alias df df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'
                 command df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs $argv
@@ -68,19 +74,16 @@ if status is-interactive
             end
 
             if test -d ~/.dotfiles
-                if test -f ~/.dotfiles/.gitignore
-                    function dots --description 'Make sure .dotfiles are current'
-                        pushd ~/.dotfiles
+                function dots --description 'Make sure .dotfiles are current'
+                    pushd ~/.dotfiles
+                    if test -f .gitignore
+                        # This is the master copy, just print status.
                         git status
-                        popd
-                    end
-                else
-                    function dots --description 'Make sure .dotfiles are current'
-                        pushd ~/.dotfiles
+                    else
                         git pull
                         ./makesymlinks.sh
-                        popd
                     end
+                    popd
                 end
             end
 
@@ -101,7 +104,7 @@ if status is-interactive
 
             # Functions to simplify package management.
             if command -q apt
-                function _do_apt_update --description 'Update apt package list unless recently updated'
+                function _do_apt_update --description 'Update the apt package list unless recently updated'
                     if not test -e /var/cache/apt/pkgcache.bin;
                         or test (math (date +%s) - (stat -c %Y /var/cache/apt/pkgcache.bin)) -gt 600
                         sudo apt update
