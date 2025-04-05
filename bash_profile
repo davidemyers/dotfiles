@@ -6,13 +6,13 @@
 # from .bashrc, which is called from .profile, which is called below.
 #
 
-# Set the base PATH to something more modern than the default from /etc/environment.
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin"
-
 # Switch to the Fish shell if present and desired.
 if [[ -f ~/.go_fish && -x /usr/bin/fish ]]; then
     exec -a fish -l /usr/bin/fish
 fi
+
+# Set the base PATH to something more modern than the default from /etc/environment.
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin"
 
 # When .bash_profile is present .profile is ignored, so source it.
 # shellcheck disable=SC1091

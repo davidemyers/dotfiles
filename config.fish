@@ -42,11 +42,11 @@ if status is-interactive
         case Linux
             # Functions specific to (Ubuntu) Linux.
 
-            # Need to prepend ~/bin to PATH since we start fish before this
-            # gets added in ~/.profile for bash.
-            if test -d ~/bin
-                fish_add_path ~/bin
-            end
+            # Set a more modern default PATH.
+            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /snap/bin
+
+            # Prepend ~/bin to PATH if it exists.
+            fish_add_path --path ~/bin
 
             # I prefer 24-hour time on a server.
             set -gx LC_TIME C.UTF-8
