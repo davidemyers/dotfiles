@@ -25,12 +25,6 @@ if [[ -f ~/.gnupg/pubring.gpg ]]; then
     GPG_TTY=$(tty); export GPG_TTY
 fi
 
-# Switch to the Fish shell if present and desired now that most environment
-# variables have been set.
-if shopt -q login_shell && [[ -f ~/.go_fish && -x /usr/bin/fish ]]; then
-    exec -a fish -l /usr/bin/fish
-fi
-
 # Some handy aliases.
 alias ll='ls -alhF'
 alias df='df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'

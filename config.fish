@@ -1,13 +1,11 @@
 # config.fish
 #
-# Install fish 4.x on Ubuntu Server 24.04 LTS with:
+# Install fish 4 on Ubuntu Server 24.04 LTS with:
 # sudo add-apt-repository -y ppa:fish-shell/release-4 && sudo apt install -y --no-install-recommends fish
 #
-# As of Ubuntu Server 25.04 fish 4.X is part of the standard repositories.
+# As of Ubuntu Server 25.04 fish 4 is part of the standard repositories.
 #
-# Most environment variables are set by my login shell (bash) before fish starts.
-# Not currently using fish as my login shell.
-#
+
 if status is-interactive
 
     # Modify the fish greeting.
@@ -48,6 +46,24 @@ if status is-interactive
             # gets added in ~/.profile for bash.
             if test -d ~/bin
                 fish_add_path ~/bin
+            end
+
+            # I prefer 24-hour time on a server.
+            set -gx LC_TIME C.UTF-8
+
+            # If NUT is installed set a variable to suppress SSL warnings from upsc.
+            if command -q upsc
+                set -gx NUT_QUIET_INIT_SSL TRUE
+            end
+
+            # If we're on a serial console we're probably using screen.
+            if test $TERM = vt220
+                set -gx TERM screen-256color
+            end
+
+            # This is needed for signing git commits.
+            if test -f ~/.gnupg/pubring.gpg
+                set -gx GPG_TTY (tty)
             end
 
             function df --description 'alias df df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'
