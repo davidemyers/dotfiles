@@ -43,10 +43,13 @@ if status is-interactive
             # Functions specific to (Ubuntu) Linux.
 
             # Set a more modern default PATH.
-            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /snap/bin
+            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin
 
             # Prepend ~/bin to PATH if it exists.
             fish_add_path --path ~/bin
+
+            # Append /snap/bin to PATH if it exists.
+            fish_add_path --path --append /snap/bin
 
             # I prefer 24-hour time on a server.
             set -gx LC_TIME C.UTF-8
