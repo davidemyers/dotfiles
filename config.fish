@@ -42,12 +42,29 @@ if status is-interactive
         case Linux
             # Functions specific to (Ubuntu) Linux.
 
-            # Set a more modern default PATH.
-            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin
+            # Make adjustments based on the terminal type.
+            if not infocmp > /dev/null 2>&1
+                # If we're logging in from a terminal with missing terminfo
+                # set TERM to a safe fallback. This can happen with Ghostty
+                # (macOS) if the terminfo file has not been installed.
+                # There's still a warning message from fish.
+                set -gx TERM xterm-256color
+            else if test $TERM = xterm-256color; and command -q btop
+                # Work around color problems with btop.
+                # This is necessary when using Shelly (iOS) or Terminal (macOS).
+                # Not needed for Ghostty (macOS) or tmux (Linux).
+                function btop --description 'alias btop btop -lc'
+                    command btop -lc $argv
+                end
+            else if test $TERM = vt220
+                # If we're on a serial console we're probably using screen.
+                set -gx TERM screen-256color
+            end
 
+            # Use a more modern, shorter PATH.
+            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin
             # Prepend ~/bin to PATH if it exists.
             fish_add_path --path ~/bin
-
             # Append /snap/bin to PATH if it exists.
             fish_add_path --path --append /snap/bin
 
@@ -57,11 +74,6 @@ if status is-interactive
             # If NUT is installed set a variable to suppress SSL warnings from upsc.
             if command -q upsc
                 set -gx NUT_QUIET_INIT_SSL TRUE
-            end
-
-            # If we're on a serial console we're probably using screen.
-            if test $TERM = vt220
-                set -gx TERM screen-256color
             end
 
             # This is needed for signing git commits.
@@ -83,13 +95,6 @@ if status is-interactive
 
             function p1ng --wraps='ping -c1' --description 'alias p1ng ping -c1'
                 ping -c1 $argv
-            end
-
-            # Work around color problems in btop.
-            if command -q btop; and test "$TERM" = xterm-256color
-                function btop --description 'alias btop btop -lc'
-                    command btop -lc $argv
-                end
             end
 
             if test -d ~/.dotfiles
