@@ -81,6 +81,11 @@ if status is-interactive
                 set -gx GPG_TTY (tty)
             end
 
+            # Make ls colors look like the Ubuntu bash defaults.
+            if command -q dircolors
+                eval (dircolors -c) || true
+            end
+
             function df --description 'alias df df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'
                 command df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs $argv
             end
