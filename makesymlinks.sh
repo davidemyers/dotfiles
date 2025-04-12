@@ -8,25 +8,30 @@
 # ~/.dotfiles/makesymlinks.sh
 #
 
+# Determine whether this is Linux or macOS.
 OS=$(uname)
 
-# The list of files to create links to.
-if [[ $OS == 'Linux' ]]; then
-    FILES="bash_aliases bash_profile nanorc tmux.conf"
-elif [[ $OS == 'Darwin' ]]; then
-    FILES="nanorc"
-else
-    echo "Unknown OS"
-    exit 1
-fi
-
-# The directory containing the files above. Probably a git clone.
+# The directory containing the files below. Probably a git clone.
 DOTFILES="${HOME}/.dotfiles"
 
-for FILE in ${FILES}; do
+# The list of files to create links to, without leading dots.
+case $OS in
+  Linux )
+    FILES="bash_aliases bash_profile nanorc tmux.conf"
+    ;;
+  Darwin )
+    FILES="nanorc tmux.conf"
+    ;;
+  *)
+    printf "%s: Unknown OS: %s\n" "${0##*/}" "$OS"
+    exit 1
+    ;;
+esac
 
-    SOURCE="${DOTFILES}/${FILE}"
-    TARGET="${HOME}/.${FILE}"
+for file in ${FILES}; do
+
+    SOURCE="${DOTFILES}/${file}"
+    TARGET="${HOME}/.${file}"
 
     # Make sure the file exists in the source directory and there's not already
     # a symbolic link in the home directory.
