@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 #
 # Create symbolic links from the home directory to the files in this directory.
 #
@@ -8,8 +8,17 @@
 # ~/.dotfiles/makesymlinks.sh
 #
 
+OS=$(uname)
+
 # The list of files to create links to.
-FILES="bash_aliases bash_profile nanorc tmux.conf"
+if [[ $OS == 'Linux' ]]; then
+    FILES="bash_aliases bash_profile nanorc tmux.conf"
+elif [[ $OS == 'Darwin' ]]; then
+    FILES="nanorc"
+else
+    echo "Unknown OS"
+    exit 1
+fi
 
 # The directory containing the files above. Probably a git clone.
 DOTFILES="${HOME}/.dotfiles"

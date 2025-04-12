@@ -14,7 +14,8 @@ if status is-interactive
     # Need to set EDITOR in order to edit command lines using alt-e.
     set -gx EDITOR nano
 
-    # Wait a bit longer to read "escape" as "alt".
+    # Wait a bit longer to read "escape" as "alt" when using Terminal.
+    # When using Ghostty "option" works as "alt".
     set -g fish_escape_delay_ms 500
 
     # Truncate fewer directory names in prompts.
@@ -100,20 +101,6 @@ if status is-interactive
 
             function p1ng --wraps='ping -c1' --description 'alias p1ng ping -c1'
                 ping -c1 $argv
-            end
-
-            if test -d ~/.dotfiles
-                function dots --description 'Make sure .dotfiles are current'
-                    pushd ~/.dotfiles
-                    if test -f .gitignore
-                        # This is the master copy, just print status.
-                        git status
-                    else
-                        git pull
-                        ./makesymlinks.sh
-                    end
-                    popd
-                end
             end
 
             if command -q journalctl
@@ -211,6 +198,20 @@ if status is-interactive
     if command -q speedtest
         function st --wraps=speedtest --description 'alias st speedtest'
             speedtest $argv
+        end
+    end
+
+    if test -d ~/.dotfiles
+        function dots --description 'Make sure .dotfiles are current'
+            pushd ~/.dotfiles
+            if test -f .gitignore
+                # This is the master copy, just print status.
+                git status
+            else
+                git pull
+                ./makesymlinks.sh
+            end
+            popd
         end
     end
 
