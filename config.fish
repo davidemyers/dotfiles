@@ -12,11 +12,11 @@ if status is-interactive
     set -g fish_greeting fish, version $version
 
     # Need to set EDITOR in order to edit command lines using alt-e.
-    set -gx EDITOR nano
+    set -g EDITOR nano
 
     # Wait a bit longer to read "escape" as "alt" when using Terminal.
     # When using Ghostty "option" works as "alt".
-    set -g fish_escape_delay_ms 500
+    # set -g fish_escape_delay_ms 500
 
     # Truncate fewer directory names in prompts.
     set -g fish_prompt_pwd_full_dirs 3 # default: 1
@@ -44,11 +44,10 @@ if status is-interactive
             # Functions specific to (Ubuntu) Linux.
 
             # Make adjustments based on the terminal type.
-            if not infocmp > /dev/null 2>&1
+            if not infocmp >/dev/null 2>&1
                 # If we're logging in from a terminal with missing terminfo
                 # set TERM to a safe fallback. This can happen with Ghostty
                 # (macOS) if the terminfo file has not been installed.
-                # There's still a warning message from fish.
                 set -gx TERM xterm-256color
             else if test $TERM = xterm-256color; and command -q btop
                 # Work around color problems with btop.
@@ -105,16 +104,14 @@ if status is-interactive
 
             if command -q journalctl
                 function logs --description 'Print filtered list of most recent system log entries'
-                    SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | \
-                    grep -E -v  -e 'CRON' \
-                                -e 'systemd.*Started' \
-                                -e 'systemd.*Starting' \
-                                -e 'systemd.*Finished' \
-                                -e 'systemd.*Deactivated' \
-                                -e 'systemd.*Consumed' \
-                                -e 'INFO.*ubuntupro.timer' \
-                                -e 'sanoid.*INFO' | \
-                        tail -$LINES
+                    SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | grep -E -v -e CRON \
+                        -e 'systemd.*Started' \
+                        -e 'systemd.*Starting' \
+                        -e 'systemd.*Finished' \
+                        -e 'systemd.*Deactivated' \
+                        -e 'systemd.*Consumed' \
+                        -e 'INFO.*ubuntupro.timer' \
+                        -e 'sanoid.*INFO' | tail -$LINES
                 end
             end
 
