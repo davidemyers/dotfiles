@@ -78,7 +78,7 @@ if status is-interactive
             end
 
             # This is needed for signing git commits.
-            if test -f ~/.gnupg/pubring.gpg
+            if path is ~/.gnupg/pubring.gpg
                 set -gx GPG_TTY (tty)
             end
 
@@ -121,14 +121,14 @@ if status is-interactive
             # Functions to simplify package management.
             if command -q apt
                 function _do_apt_update --description 'Update the apt package list unless recently updated'
-                    if not test -e /var/cache/apt/pkgcache.bin;
+                    if not path is /var/cache/apt/pkgcache.bin;
                         or test (math (date +%s) - (stat -c %Y /var/cache/apt/pkgcache.bin)) -gt 600
                         sudo apt update
                     end
                 end
 
                 function _check_for_reboot --description 'Print a notice if a reboot is pending'
-                    if test -e /run/reboot-required
+                    if path is /run/reboot-required
                         echo Reboot required
                     end
                 end
@@ -166,7 +166,7 @@ if status is-interactive
             # Functions specific to macOS.
 
             # Set up environment variables for Homebrew.
-            if test -x /opt/homebrew/bin/brew
+            if path is -x /opt/homebrew/bin/brew
                 eval (/opt/homebrew/bin/brew shellenv fish)
             end
 
@@ -201,10 +201,10 @@ if status is-interactive
         end
     end
 
-    if test -d ~/.dotfiles
+    if path is -d ~/.dotfiles
         function dots --description 'Make sure .dotfiles are current'
             pushd ~/.dotfiles
-            if test -f .gitignore
+            if path is .gitignore
                 # This is the master copy, just print status.
                 git status
             else
