@@ -22,7 +22,7 @@ if status is-interactive
     set -g fish_prompt_pwd_full_dirs 3 # default: 1
 
     # Tweak some colors in the default prompt.
-    # #0088FF is a luminance-boosted version of Duke Royal Blue #00539B.
+    # 0088FF is a luminance-boosted version of Duke Royal Blue 00539B.
     # https://brand.duke.edu/colors https://htmlcolorcodes.com
     set -g fish_color_user 08F brgreen # default: brgreen
     set -g fish_color_host 08F brcyan # default: normal
@@ -53,7 +53,7 @@ if status is-interactive
                 # Work around color problems with btop.
                 # This is necessary when using Shelly (iOS) or Terminal (macOS).
                 # Not needed for Ghostty (macOS) or tmux (Linux).
-                function btop --description 'alias btop btop -lc'
+                function btop --description 'Run btop with the "low color" option'
                     command btop -lc $argv
                 end
             else if test $TERM = vt220
@@ -86,7 +86,7 @@ if status is-interactive
                 eval (dircolors -c) || true
             end
 
-            function df --description 'alias df df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs'
+            function df --description 'Omit certain filesystems from df'
                 command df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs $argv
             end
 
