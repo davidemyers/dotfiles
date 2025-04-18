@@ -171,8 +171,8 @@ if status is-interactive
                 command df -H $argv
             end
 
-            function kif --description 'alias kif mosh --family=inet kif.myersnet.net -- bin/start-tmux'
-                mosh --family=inet kif.myersnet.net -- bin/start-tmux $argv
+            function kif --description 'Start a tmux under mosh session on my management server'
+                mosh --family=inet kif.myersnet.net -- bin/start-tmux $COLORTERM $argv
             end
 
     end
