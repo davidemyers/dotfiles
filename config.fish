@@ -152,14 +152,12 @@ if status is-interactive
             end
 
             if set -q TMUX
+                # We're running directly under tmux.
                 function tssh --description 'Open new SSH connections in new tmux windows'
                     set -l destination
                     for destination in $argv
                         tmux new-window -n (string replace -r '(\w+@)?(\w+)(\.\w+)*' '$2' $destination) ssh $destination
                     end
-                end
-                function pis --description 'tssh into all of my Raspberry Pis at once'
-                    tssh pi chronos cerberus stargate capsule walnut peanut
                 end
             end
 
@@ -173,10 +171,6 @@ if status is-interactive
 
             function df --description 'alias df df -H'
                 command df -H $argv
-            end
-
-            function kif --description 'Start a tmux under mosh session on my management server'
-                mosh --family=inet kif.myersnet.net -- bin/start-tmux COLORTERM=$COLORTERM $argv
             end
 
     end
