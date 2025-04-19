@@ -44,6 +44,10 @@ if status is-interactive
             # Functions specific to (Ubuntu) Linux.
 
             # Make adjustments based on the terminal type.
+            if test $TERM = xterm-ghostty; or test $TERM = tmux-256color
+                # We're probably on a terminal that can do truecolor.
+                set -gx COLORTERM truecolor
+            end
             if not infocmp >/dev/null 2>&1
                 # If we're logging in from a terminal with missing terminfo
                 # set TERM to a safe fallback. This can happen with Ghostty
@@ -172,7 +176,7 @@ if status is-interactive
             end
 
             function kif --description 'Start a tmux under mosh session on my management server'
-                mosh --family=inet kif.myersnet.net -- bin/start-tmux $COLORTERM $argv
+                mosh --family=inet kif.myersnet.net -- bin/start-tmux COLORTERM=$COLORTERM $argv
             end
 
     end
