@@ -16,7 +16,9 @@ if status is-interactive
 
     # Wait a bit longer to read "escape" as "alt" when using Terminal.
     # When using Ghostty "option" works as "alt".
-    # set -g fish_escape_delay_ms 500
+    if set -q TERM_PROGRAM; and test $TERM_PROGRAM = Apple_Terminal
+        set -g fish_escape_delay_ms 500
+    end
 
     # Truncate fewer directory names in prompts.
     set -g fish_prompt_pwd_full_dirs 3 # default: 1
@@ -154,7 +156,6 @@ if status is-interactive
             if set -q TMUX
                 # We're running directly under tmux.
                 function tssh --description 'Open new SSH connections in new tmux windows'
-                    set -l destination
                     for destination in $argv
                         tmux new-window -n (string replace -r '(\w+@)?(\w+)(\.\w+)*' '$2' $destination) ssh $destination
                     end
@@ -203,10 +204,18 @@ if status is-interactive
                 # This is the master copy, just print status.
                 git status
             else
-                git pull
-                ./makesymlinks.sh
+                git pull && ./makesymlinks.sh
             end
             popd
+        end
+    end
+
+    function check --description 'Check the fish config file(s)'
+        for config in $__fish_config_dir/config.fish $__fish_config_dir/conf.d/*.fish
+            if not fish_indent --check $config
+                diff $config (fish_indent $config | psub)
+                break
+            end
         end
     end
 
