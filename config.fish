@@ -13,15 +13,6 @@ if status is-interactive
     # Modify the fish greeting.
     set -g fish_greeting fish, version $version
 
-    # Need to set EDITOR in order to edit command lines using alt-e.
-    set -g EDITOR nano
-
-    # Wait a bit longer to read "escape" as "alt" when using Terminal.
-    # When using Ghostty "option" works as "alt".
-    if set -q TERM_PROGRAM; and test $TERM_PROGRAM = Apple_Terminal
-        set -g fish_escape_delay_ms 500
-    end
-
     # Truncate fewer directory names in prompts.
     set -g fish_prompt_pwd_full_dirs 3 # default: 1
 
@@ -40,6 +31,9 @@ if status is-interactive
     set -q __fish_git_prompt_showcolorhints yes # Doesn't work?
     set -g __fish_git_prompt_showuntrackedfiles yes
     set -g __fish_git_prompt_showdirtystate yes
+
+    # Need to set EDITOR in order to edit command lines using alt-e.
+    set -g EDITOR nano
 
     # Define different functions based on the OS.
     switch (uname)
@@ -166,6 +160,12 @@ if status is-interactive
 
         case Darwin
             # Functions specific to macOS.
+
+            # Wait a bit longer to read "escape" as "alt" when using Terminal.
+            # When using Ghostty "option" works as "alt".
+            if set -q TERM_PROGRAM; and test $TERM_PROGRAM = Apple_Terminal
+                set -g fish_escape_delay_ms 500
+            end
 
             # Set up environment variables for Homebrew.
             if path is -x /opt/homebrew/bin/brew
