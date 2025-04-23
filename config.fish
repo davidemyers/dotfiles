@@ -1,7 +1,9 @@
 # config.fish
 #
 # Install fish 4 on Ubuntu Server 24.04 LTS with:
-# sudo add-apt-repository -y ppa:fish-shell/release-4 && sudo apt install -y --no-install-recommends fish
+#
+# sudo add-apt-repository -y ppa:fish-shell/release-4
+# sudo apt install -y --no-install-recommends fish
 #
 # As of Ubuntu Server 25.04 fish 4 is part of the standard repositories.
 #
@@ -104,7 +106,7 @@ if status is-interactive
                 command last -a $argv
             end
 
-            function p1ng --wraps='ping -c1' --description 'alias p1ng ping -c1'
+            function p1ng --wraps='ping -c1' --description 'Ping once'
                 ping -c1 $argv
             end
 
@@ -197,6 +199,7 @@ if status is-interactive
         end
     end
 
+    # Manage my common dot files, which I store on GitHub for easy external access.
     if path is -d ~/.dotfiles
         function dots --description 'Make sure .dotfiles are current'
             pushd ~/.dotfiles
@@ -210,6 +213,8 @@ if status is-interactive
         end
     end
 
+    # For this to work you need keep this file formatted the way fish_indent
+    # tells you to.
     function check --description 'Check the fish config file(s)'
         for config in $__fish_config_dir/config.fish $__fish_config_dir/conf.d/*.fish
             if not fish_indent --check $config
