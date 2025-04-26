@@ -180,9 +180,12 @@ if status is-interactive
 
     # Functions not specific to the OS.
 
+    # Use "less" even though I habitually type "more".
     function more --wraps=less --description 'alias more less'
         less $argv
     end
+    # These are the options used by systemd commands.
+    set -gx LESS FRSXMK
 
     function psg --description 'grep the output of ps'
         ps wwaux | grep --color=always $argv | grep -v grep
