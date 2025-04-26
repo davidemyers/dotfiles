@@ -42,23 +42,23 @@ if status is-interactive
             # Functions specific to (Ubuntu) Linux.
 
             # Make adjustments based on the terminal type.
-            if test $TERM = xterm-ghostty; or test $TERM = tmux-256color
+            if test "$TERM" = xterm-ghostty; or test "$TERM" = tmux-256color
                 # We're probably on a terminal that can do truecolor.
                 set -gx COLORTERM truecolor
             end
-            if not infocmp >/dev/null 2>&1
+            if not infocmp &>/dev/null
                 # If we're logging in from a terminal with missing terminfo
                 # set TERM to a safe fallback. This can happen with Ghostty
                 # (macOS) if the terminfo file has not been installed.
                 set -gx TERM xterm-256color
-            else if test $TERM = xterm-256color; and command -q btop
+            else if test "$TERM" = xterm-256color; and command -q btop
                 # Work around color problems with btop.
                 # This is necessary when using Shelly (iOS) or Terminal (macOS).
                 # Not needed for Ghostty (macOS) or tmux (Linux).
                 function btop --description 'Run btop with the "low color" option'
                     command btop -lc $argv
                 end
-            else if test $TERM = vt220
+            else if test "$TERM" = vt220
                 # If we're on a serial console we're probably using screen.
                 set -gx TERM screen-256color
             end
@@ -163,7 +163,7 @@ if status is-interactive
 
             # Wait a bit longer to read "escape" as "alt" when using Terminal.
             # When using Ghostty "option" works as "alt".
-            if set -q TERM_PROGRAM; and test $TERM_PROGRAM = Apple_Terminal
+            if test "$TERM_PROGRAM" = Apple_Terminal
                 set -g fish_escape_delay_ms 500
             end
 
@@ -186,6 +186,10 @@ if status is-interactive
     end
     # These are the options used by systemd commands.
     set -gx LESS FRSXMK
+
+    function which --wraps='type --all --short' --description 'alias which type --all --short'
+        type --all --short $argv
+    end
 
     function psg --description 'grep the output of ps'
         ps wwaux | grep --color=always $argv | grep -v grep
