@@ -1,11 +1,16 @@
-# config.fish
+# ~/.config/fish/config.fish (https://fishshell.com)
+#
+# My fish config file for use on Ubuntu and macOS. Began transitioning to fish
+# on 2025-03-24 after 36 years of using bash.
 #
 # Install fish 4 on Ubuntu Server 24.04 LTS with:
 #
 # sudo add-apt-repository -y ppa:fish-shell/release-4
 # sudo apt install -y --no-install-recommends fish
+# chsh -s /usr/bin/fish
 #
-# As of Ubuntu Server 25.04 fish 4 is part of the standard repositories.
+# As of Ubuntu Server 25.04, fish 4 is part of the standard repositories but
+# still not installed by default.
 #
 
 if status is-interactive
