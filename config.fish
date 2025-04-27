@@ -15,36 +15,18 @@
 
 if status is-interactive
 
-    # Modify the fish greeting.
-    set -g fish_greeting fish, version $version
-
-    # Truncate fewer directory names in prompts.
-    set -g fish_prompt_pwd_full_dirs 3 # default: 1
-
-    # Tweak some colors in the default prompt.
-    # 0088FF is a luminance-boosted version of Duke Royal Blue 00539B.
-    # https://brand.duke.edu/colors https://htmlcolorcodes.com
-    set -g fish_color_user 08F brgreen # default: brgreen
-    set -g fish_color_host 08F brcyan # default: normal
-    set -g fish_color_host_remote 08F brcyan # default: yellow
-    # Can't abide the red comments in the default theme.
-    set -g fish_color_comment brblack # default: red
-
-    # Show more detail in the git prompt.
-    set -g __fish_git_prompt_show_informative_status no
-    set -g __fish_git_prompt_use_informative_chars yes
-    set -q __fish_git_prompt_showcolorhints yes # Doesn't work?
-    set -g __fish_git_prompt_showuntrackedfiles yes
-    set -g __fish_git_prompt_showdirtystate yes
-
-    # Need to set EDITOR in order to edit command lines using alt-e.
-    set -g EDITOR nano
-
-    # Define different functions based on the OS.
+    # Use different settings based on the OS.
     switch (uname)
 
         case Linux
             # Functions specific to (Ubuntu) Linux.
+
+            # Use a more modern, shorter PATH.
+            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin
+            # Append /snap/bin to PATH if it exists.
+            fish_add_path --path --append /snap/bin
+            # Prepend ~/bin to PATH if it exists.
+            fish_add_path --path ~/bin
 
             # Make adjustments based on the terminal type.
             if test "$TERM" = xterm-ghostty; or test "$TERM" = tmux-256color
@@ -67,13 +49,6 @@ if status is-interactive
                 # If we're on a serial console we're probably using screen.
                 set -gx TERM screen-256color
             end
-
-            # Use a more modern, shorter PATH.
-            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin
-            # Prepend ~/bin to PATH if it exists.
-            fish_add_path --path ~/bin
-            # Append /snap/bin to PATH if it exists.
-            fish_add_path --path --append /snap/bin
 
             # I prefer 24-hour time on a server.
             set -gx LC_TIME C.UTF-8
@@ -183,7 +158,32 @@ if status is-interactive
 
     end
 
-    # Functions not specific to the OS.
+    # Settings not specific to the OS.
+
+    # Modify the fish greeting.
+    set -g fish_greeting fish, version $version
+
+    # Truncate fewer directory names in prompts.
+    set -g fish_prompt_pwd_full_dirs 3 # default: 1
+
+    # Tweak some colors in the default prompt.
+    # 0088FF is a luminance-boosted version of Duke Royal Blue 00539B.
+    # https://brand.duke.edu/colors https://htmlcolorcodes.com
+    set -g fish_color_user 08F brgreen # default: brgreen
+    set -g fish_color_host 08F brcyan # default: normal
+    set -g fish_color_host_remote 08F brcyan # default: yellow
+    # Can't abide the red comments in the default theme.
+    set -g fish_color_comment brblack # default: red
+
+    # Show more detail in the git prompt.
+    set -g __fish_git_prompt_show_informative_status no
+    set -g __fish_git_prompt_use_informative_chars yes
+    set -q __fish_git_prompt_showcolorhints yes # Doesn't work?
+    set -g __fish_git_prompt_showuntrackedfiles yes
+    set -g __fish_git_prompt_showdirtystate yes
+
+    # Need to set EDITOR in order to edit command lines using alt-e.
+    set -g EDITOR nano
 
     # Use "less" even though I habitually type "more".
     function more --wraps=less --description 'alias more less'
