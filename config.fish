@@ -80,6 +80,10 @@ if status is-interactive
                 command last -a $argv
             end
 
+            function clear --description 'alias clear=clear -x'
+                command clear -x $argv
+            end
+
             function p1ng --wraps='ping -c1' --description 'Ping once'
                 ping -c1 $argv
             end
